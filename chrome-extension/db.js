@@ -1,0 +1,21 @@
+const db = {
+    "lorem": { read: "ロレム", mean: "Lorem (placeholder)" },
+    "ipsum": { read: "イプスム", mean: "Ipsum (placeholder)" },
+    "dolor": { read: "ドロル", mean: "Pain" },
+    "sit": { read: "シット", mean: "To sit" },
+    "amet": { read: "アメット", mean: "Love" },
+    "consectetur": { read: "コンセクテトゥル", mean: "Joined together" },
+    "adipiscing": { read: "アディピシング", mean: "Nourishing" },
+    "elit": { read: "エリト", mean: "Elite" },
+    "sed": { read: "セッド", mean: "But" },
+    "do": { read: "ドー", mean: "Do" },
+    "eiusmod": { read: "エイウスモド", mean: "Of that kind" },
+    "tempor": { read: "テンポル", mean: "Time" },
+    "incididunt": { read: "インシディドゥント", mean: "Occurring" },
+    "ut": { read: "ウト", mean: "So that" },
+    "labore": { read: "ラボーレ", mean: "Work" },
+    "et": { read: "エト", mean: "And" },
+    "dolore": { read: "ドローレ", mean: "Pain" },
+    "magna": { read: "マグナ", mean: "Great" },
+    "aliqua": { read: "アリクア", mean: "Some" }
+};

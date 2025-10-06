@@ -1,0 +1,12 @@
+{
+    "manifest_version": 3,
+    "name": "furigana over",
+    "description": "get over furigana",
+    "permissions": [ "scripting" ],
+    "content_scripts": [{
+        "matches": [ "<all_urls>" ],
+        "js": [ "content.js", "db.js" ],
+        "run_at": "document_idle"
+    }],
+    "version": "1.0"
+}
