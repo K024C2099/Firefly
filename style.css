@@ -1,0 +1,28 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* vertical centering */
+    align-items: center;
+    /* horizontal centering */
+    min-height: 100vh;
+    /* fill viewport height */
+    color: #333;
+    /* default text color */
+    text-align: center;
+    /* center text in child elements */
+    font-family: 'Noto Sans Mono CJK JP', 'Courier New', "MS Gothic", "Osaka-Mono", monospace;
+    line-height: 1.5;
+}
+
+h1 {
+    font-size: 64px;
+}
+
+h1 {
+    font-size: 32px;
+}
+
+p {
+    font-size: 16px;
+}
