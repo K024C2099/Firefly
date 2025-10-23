@@ -1,28 +1,43 @@
+html {
+    background: linear-gradient(45deg, #444 50%, #191);
+}
+
 body {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    /* vertical centering */
+    justify-content: start;
+    padding-top: 100px;
     align-items: center;
-    /* horizontal centering */
     min-height: 100vh;
-    /* fill viewport height */
+    height: 200vh;
     color: #333;
-    /* default text color */
     text-align: center;
-    /* center text in child elements */
     font-family: 'Noto Sans Mono CJK JP', 'Courier New', "MS Gothic", "Osaka-Mono", monospace;
     line-height: 1.5;
+    /**/
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='50'><rect width='99%' height='99%' fill='%23eeed'/></svg>");
+    background-repeat: repeat;
 }
 
 h1 {
     font-size: 64px;
 }
 
-h1 {
+h2 {
     font-size: 32px;
 }
 
 p {
     font-size: 16px;
+}
+
+#sample {
+    width: 800px;
+    height: 600px;
+    border: 6px solid;
+    border-image: linear-gradient(45deg, #444, #191) 1;
+    box-shadow:
+        5px -5px 25px 5px #1c1,
+        -5px 5px 25px 5px #333;
+    box-shadow: 4px 4px 6px #0008;
 }
