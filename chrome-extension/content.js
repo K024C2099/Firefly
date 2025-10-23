@@ -1,12 +1,46 @@
-const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-document.body.appendChild(svg);
-svg.style.cssText = `position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999;`;
-function setSVG(text, rect) {
-    svg.innerHTML = `
-<rect fill="black" rx="5" ry="5" x="${rect.x}" y="${rect.y - 24}" width="${text.length * 16 * 0.7}px" height="${24}px"></rect>
-<text fill="white" font-family="monospace" x="${rect.x + 8}" y="${rect.y - 8}" font-size="${16}px">${text}</text>
-<rect fill="transparent" stroke="black" stroke-width="2px" x="${rect.x}" y="${rect.y}" width="${rect.width}" height="${rect.height}"></rect>
-`;
+// Run once when content script loads
+(async () => {
+    const { enabled } = await chrome.storage.local.get("enabled");
+    updateExtensionState(enabled);
+})();
+chrome.storage.onChanged.addListener((changes, area) => {
+    if (area === "local" && "enabled" in changes) {
+        const newState = changes.enabled.newValue;
+        updateExtensionState(newState);
+    }
+});
+function updateExtensionState(isOn) {
+    if (isOn) {
+    } else {
+        clearContent();
+    }
+}
+
+const link = document.createElement('link');
+link.rel = 'stylesheet';
+link.href = chrome.runtime.getURL('template1.css');
+document.head.appendChild(link);
+
+fetch(chrome.runtime.getURL('template1.html'))
+    .then(res => res.text()).then(html => {
+        const temp = document.createElement('div');
+        temp.innerHTML = html.trim();
+        const template = temp.querySelector('template');
+        const clone = template.content.cloneNode(true);
+        const item = clone.firstElementChild;
+        document.body.appendChild(item);
+        window.hoverPopup = item;
+    });
+
+function clearContent() {
+    window.hoverPopup.style.display = 'none';
+}
+function setContent(key, rect) {
+    window.hoverPopup.style.display = 'flex';
+    const text = db[key] ? `${key}: ${db[key].read} -> ${db[key].mean}` : "null";
+    window.hoverPopup.querySelector('.word').textContent = key;
+    window.hoverPopup.style.left = rect.x + 'px';
+    window.hoverPopup.style.top = (rect.y - 70) + 'px';
 }
 
 const segmenter = new Intl.Segmenter("ja", { granularity: "word" });
@@ -23,7 +57,7 @@ function getWordUnicode(text, offset) {
     }
     return null;
 }
-
+let currentWord = null;
 document.addEventListener("mousemove", (e) => {
     let pos = document.caretPositionFromPoint?.(e.clientX, e.clientY)
         ?? (() => {
@@ -31,10 +65,16 @@ document.addEventListener("mousemove", (e) => {
             return legacy ? { offsetNode: legacy.startContainer, offset: legacy.startOffset } : null;
         })();
 
-    const { word, start, end } = getWordUnicode(pos?.offsetNode.textContent, pos.offset) || {};
+    const result = getWordUnicode(pos?.offsetNode.textContent, pos?.offset);
+    const { word, start, end } = result || {};
 
     if (pos?.offsetNode.nodeType !== Node.TEXT_NODE || !word) {
-        svg.innerHTML = '';
+        clearContent();
+        console.log('no word found');
+        return;
+    }
+    if (currentWord === word) {
+        console.log('word not changed');
         return;
     }
 
@@ -42,9 +82,21 @@ document.addEventListener("mousemove", (e) => {
     range.setStart(pos.offsetNode, start);
     range.setEnd(pos.offsetNode, end);
     const rect = range.getBoundingClientRect();
+    function distanceToRect(rect, x, y) {
+        const dx = x < rect.left ? rect.left - x : x > rect.right ? x - rect.right : 0;
+        const dy = y < rect.top ? rect.top - y : y > rect.bottom ? y - rect.bottom : 0;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    const dist = distanceToRect(rect, e.clientX, e.clientY);
+    if (dist > 10 /*max pixel distance*/) {
+        clearContent();
+        return;
+    }
+    currentWord = word;
+    console.log('new word found!');
 
     const key = word.toLowerCase();
-    const text = db[key] ? `${key}: ${db[key].read} -> ${db[key].mean}` : "null";
 
-    requestAnimationFrame(() => { setSVG(text, rect); })
+    requestAnimationFrame(() => { setContent(key, rect); })
 });
