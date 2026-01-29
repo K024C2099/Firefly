@@ -4,17 +4,16 @@
 
 .item {
     position: absolute;
-    min-width: 300px;
-    max-width: 600px;
-    max-height: 300px;
-    display: flex;
+    display: inline-flex;
+    width: max-content;
+    max-width: 400px;
     align-items: baseline;
     padding: 10px;
     padding-top: 20px;
     border-radius: 10px 10px 0 0;
-    border: 2px solid #333;
-    border-bottom: 1px dashed #333;
-    background-color: #eee;
+    border: 2px solid black;
+    border-radius: 16px;
+    background-color: white;
 }
 
 .reading {
@@ -29,15 +28,19 @@
 }
 
 .word {
-    display: inline-block;
+    display: block;
     position: relative;
     margin-right: 10px;
-    font-size: 32px;
+    font-size: 24px;
     font-weight: bold;
     color: black;
 }
 
 .meaning {
-    font-size: 24px;
+    font-size: 20px;
     color: #333;
+    word-break: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 100px;
 }

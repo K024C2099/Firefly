@@ -1,8 +1,11 @@
 {
     "manifest_version": 3,
-    "name": "furigana over",
-    "description": "get over furigana",
-    "permissions": [ "scripting", "storage" ],
+    "name": "Firefly Companion",
+    "description": "hover meaning",
+    "permissions": [
+        "scripting",
+        "storage"
+    ],
     "background": {
         "service_worker": "background.js"
     },
@@ -12,17 +15,28 @@
             "32": "icons/32.png"
         }
     },
-    "content_scripts": [{
-        "matches": [ "<all_urls>" ],
-        "js": [ "content.js", "db.js" ],
-        "run_at": "document_idle"
-    }],
-    "web_accessible_resources": [{
-        "resources": [
-            "template1.html",
-            "template1.css"
-        ],
-        "matches": ["<all_urls>"]
-    }],
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "content.js"
+            ],
+            "run_at": "document_idle"
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "ejdict.json",
+                "template1.html",
+                "template1.css"
+            ],
+            "matches": [
+                "<all_urls>"
+            ]
+        }
+    ],
     "version": "1.0"
 }
